@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
@@ -43,6 +44,6 @@ if not settings.USE_SUPABASE:
     app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 async def health_check():
-    return {"status": "ok"}
+    return Response(status_code=200)
